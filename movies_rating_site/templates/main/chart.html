@@ -5,15 +5,22 @@
 
 {%block content%}
     <div class="d-flex justify-content-center"><h1>Top Movies</h1></div>
+    <div class="chart-categories d-flex flex-row">
+        <a href="/chart/"><h4 style="color: black;">All</h4></a>
+        {% for category in categories %}
+            <a href="{{category.get_absolute_url}}"><h4 style="color: black;">{{category.name}}</h4></a>
+        {% endfor%}
+    </div>
     <div class="movies-cards d-flex flex-column">
         {% for movie in movies %}
-            <div class="movie-card d-flex flex-column">
-                <p>{{movie.name}}</p>
-                <p>{{movie.category}}</p>
-                <p>{{movie.rating}}</p>
-                <p>{{movie.description}}</p>
-                <img src="{{movie.image.url}}"/>
-                <p>{{movie.release_date }}</p>
+            <div class="movie-card d-flex flex-row mt-2">
+                <img class="movie-card-img m-2" src="{{movie.image.url}}"/>
+                <div class="movie-card-info m-2">                
+                    <h3>{{movie.name}}</h3>
+                    <h5>{{movie.category}}</h5>
+                    <h6>IMDb Rating: {{movie.rating}}</h6>
+                    <h6>Released: {{movie.release_date }}</h6>
+                </div>
             </div>
         {% endfor %}
     </div>

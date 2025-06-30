@@ -55,6 +55,36 @@ li {
     flex: 1;
 }
 
+.chart-categories{
+    display: flex;
+    gap: 15px;
+}
+
+.movie-card{
+    display: flex;
+    border-radius: 5px;
+    border: 1px solid;
+}
+
+.movie-card-img{
+    height: 150px;
+    width: auto;
+}
+
+.movie-card-info{
+    margin-left: 35px;
+}
+
+/* Registration and login styles */
+
+.form-input-field{
+    width: 40%;
+}
+
+.submit-from-btn{
+    width: 20%;
+}
+
 footer{
     bottom: 0;
     width: 100%;
