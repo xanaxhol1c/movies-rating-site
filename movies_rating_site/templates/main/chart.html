@@ -1,0 +1,20 @@
+{% extends 'layout.html'%}
+{% load static %}
+
+{% block title%}Top Movies Chart{% endblock title%}
+
+{%block content%}
+    <div class="d-flex justify-content-center"><h1>Top Movies</h1></div>
+    <div class="movies-cards d-flex flex-column">
+        {% for movie in movies %}
+            <div class="movie-card d-flex flex-column">
+                <p>{{movie.name}}</p>
+                <p>{{movie.category}}</p>
+                <p>{{movie.rating}}</p>
+                <p>{{movie.description}}</p>
+                <img src="{{movie.image.url}}"/>
+                <p>{{movie.release_date }}</p>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock content%}
