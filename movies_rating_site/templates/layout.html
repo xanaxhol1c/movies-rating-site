@@ -1,0 +1,36 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>{% block title %}{% endblock title %}</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+        {% comment %} <link rel="icon" href="{% static 'img/favicon.ico'%}"> {% endcomment %}
+        <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css'%}">
+        <link rel="stylesheet" href="{% static 'css/style.css'%}?v=1">
+    </head>
+    <body>
+        <header class="header sticky-top">
+            <div class="header-nav d-flex flex-row">
+                <ul class="header-list d-flex flex-row">
+                    <li><a href='/' class="nav-a m-3">Home</a></li>
+                    <li><a href='/' class="nav-a m-3">Ratings</a></li>
+                    <li><a href='/' class="nav-a m-3">Authorize</a></li>
+                </ul>
+            </div>
+        </header>
+        <div class="container mt-4">
+        {% block content %}{% endblock content %}
+        </div>
+
+        <footer class="footer">
+            <div>
+                <p style="height: 100%; padding: 0; margin: 0;">Movies rating site 2025©</p>
+            </div>
+        </footer>
+    </body>
+</html>
