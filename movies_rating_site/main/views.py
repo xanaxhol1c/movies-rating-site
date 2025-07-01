@@ -1,5 +1,8 @@
-from django.shortcuts import render
-from .models import Movie, Category
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import Movie, Category, UserRatings
+from .forms import RateMovieForm
+from django.contrib.auth.decorators import login_required
+
 # Create your views here.
 def index(request):
     return render(request, 'main/index.html')
@@ -13,6 +16,42 @@ def top_chart(request, slug=None):
         movies = Movie.objects.order_by('-imdb_rating')
     return render(request, 'main/chart.html', {'categories' : categories, 'movies' : movies})
 
+@login_required
 def movie_details(request, slug):
     movie = Movie.objects.filter(slug=slug).first()
-    return render(request, 'main/moviedetails.html', {'movie' : movie})
+
+    rating = UserRatings.objects.filter(user=request.user, movie=movie).first()
+
+    if request.method == 'POST':
+        if rating:
+            form = RateMovieForm(request.POST, instance=rating)
+        else:
+            form = RateMovieForm(request.POST)
+
+        if form.is_valid():
+            rating = form.save(commit=False)
+            rating.user = request.user
+            rating.movie = movie
+            rating.save()
+
+            return redirect('main:movie_details', slug = movie.slug)
+    else:
+        form = RateMovieForm(instance=rating)
+
+    return render(request, 'main/moviedetails.html', {'form' : form, 'movie' : movie, 'rating' : rating})
+
+
+# def rate_movie(request, slug):
+#     movie = get_object_or_404(Movie, slug=slug)
+#     rating, created = UserRatings.objects.update_or_create(user=request.user, movie=movie)
+
+#     if request.method == 'POST':
+#         form = RateMovieForm(request.POST, instance=rating)
+
+#         if form.is_valid():
+#             form.save()
+#             return redirect('main:movie_details', slug = movie.slug)
+#     else:
+#         form = RateMovieForm(instance=rating)
+
+#     return render(request, 'main/moviedetails.html', {'form' : form, 'movie' : movie})

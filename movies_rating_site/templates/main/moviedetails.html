@@ -11,6 +11,16 @@
         <p>{{movie.description}}</p>
         <p>{{movie.release_date}}</p>
         <p>{{movie.imdb_rating}}</p>
+        {% if rating %}
+            <p>Your rating: {{rating.score}}</p>
+        {% endif %}
         <img src="{{movie.image.url}}">
+    </div>
+    <div>
+        <form method="post" action = "">
+            {% csrf_token %}
+            {{form.as_p}}
+            <button class="btn btn-primary" type="submit">Rate</button>
+        </form>
     </div>
 {% endblock content %}
