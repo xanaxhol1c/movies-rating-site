@@ -9,3 +9,9 @@ class RateMovieForm(forms.ModelForm):
         widgets = {
             'score': forms.NumberInput(attrs={'min' : 1, 'max' : 10})
             }
+    def clean_score(self):
+        score = self.cleaned_data.get('score')
+
+        if score is None or (score < 1 or score > 10):
+            raise forms.ValidationError('Rating has to be in range(1-10)')
+        return score

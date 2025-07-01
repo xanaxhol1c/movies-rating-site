@@ -19,8 +19,13 @@
     <div>
         <form method="post" action = "">
             {% csrf_token %}
-            {{form.as_p}}
-            <button class="btn btn-primary" type="submit">Rate</button>
+            {% if form.score.errors %}
+                <div>
+                    <p class="alert alert-danger">{{form.score.errors.0}}</p>
+                </div>
+            {% endif %}
+            <input id="score" name="score" placeholder="score" value={{form.score.value}} min="1" max="10"/>
+            <button id="formSubmitBtn"class="btn btn-primary" type="submit">Rate</button>
         </form>
     </div>
 {% endblock content %}
