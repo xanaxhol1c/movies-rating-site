@@ -1,6 +1,7 @@
 from django.db import models
 from .utils import upload_movie_image
 from django.urls import reverse
+from django.conf import settings
 # Create your models here.
 class Category(models.Model):
     name = models.CharField(max_length=100, unique=True)
@@ -15,22 +16,40 @@ class Category(models.Model):
         return str(self.name)
     
     def get_absolute_url(self):
-        return reverse('main:chart', args=[self.slug])
+        return reverse('main:chart_category', args=[self.slug])
     
 
 class Movie(models.Model):
     name = models.CharField(max_length=150, unique=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     slug = models.SlugField(max_length=150, unique=True)
-    rating = models.DecimalField(default=0.00, decimal_places=2, max_digits=3)
+    imdb_rating = models.DecimalField(default=0.00, decimal_places=2, max_digits=3)
+    users_rating = models.DecimalField(default=0.00, decimal_places=2, max_digits=3)
     description = models.TextField(blank=True)
     image = models.ImageField(upload_to=upload_movie_image, blank=True)
     release_date = models.DateField()
 
     class Meta:
-        ordering = ['name', '-rating']
+        ordering = ['name', '-imdb_rating']
         verbose_name = "Movie"
         verbose_name_plural = "Movies"
 
     def __str__(self):
         return str(self.name)
+    
+    def get_absolute_url(self):
+       return reverse('main:movie_details', args=[self.slug])
+   
+class UserRatings(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
+    score = models.PositiveSmallIntegerField()
+
+    class Meta:
+        unique_together = ('user', 'movie')
+        ordering = ['user']
+        verbose_name = "User Rating"
+        verbose_name_plural = "User Ratings"
+
+    def __str__(self):
+        return str(f'{self.user.username} - {self.movie.name}: {self.score}')
