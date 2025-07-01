@@ -20,6 +20,9 @@
                     <h3>{{movie.name}}</h3>
                     <h5>{{movie.category}}</h5>
                     <h6>IMDb Rating: {{movie.imdb_rating}}</h6>
+                    {% if movie.average_rating %}
+                        <h6>Users Rating: {{movie.average_rating}}</h6>
+                    {% endif %}
                     <h6>Released: {{movie.release_date}}</h6>
                 </div>
             </div>

@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from .forms import UserRegistrationForm
 from .models import CustomUser
@@ -30,3 +30,9 @@ def login_view(request):
         messages.error(request, "User not found")
         
     return render(request, 'authorization/login.html') 
+
+
+def logout_view(request):
+    if request.user:
+        logout(request)
+        return redirect('main:index') 

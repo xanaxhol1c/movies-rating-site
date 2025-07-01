@@ -41,6 +41,7 @@ def movie_details(request, slug):
     return render(request, 'main/moviedetails.html', {'form' : form, 'movie' : movie, 'rating' : rating})
 
 
+
 # def rate_movie(request, slug):
 #     movie = get_object_or_404(Movie, slug=slug)
 #     rating, created = UserRatings.objects.update_or_create(user=request.user, movie=movie)
