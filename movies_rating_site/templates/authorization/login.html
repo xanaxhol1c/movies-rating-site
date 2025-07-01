@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block title %}Login{% endblock title %}
+
+{% block content %}
+    <div class="d-flex flex-column">
+        {% if messages %}
+            {% for message in messages%}
+                <p style="alert-danger">{{message}}</p>
+            {% endfor%}
+        {% endif %}
+        <form method='post' class="d-flex flex-column" style="gap: 20px;">
+            {% csrf_token %}
+            <input class="form-input-field" name="username" placeholder="username"/>
+            <input class="form-input-field" name="password" type="password" placeholder="password"/>
+            <button class="btn btn-primary submit-from-btn" type="submit">Login</button>
+        </form>
+        <p>Don't have an account? <a href="/register/" style="color: #0000EE;">Register</a></p>
+    </div>
+{% endblock content %}

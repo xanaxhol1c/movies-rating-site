@@ -1,4 +1,5 @@
 from django import forms
+from django.contrib.auth.hashers import make_password
 from .models import CustomUser
 
 class UserRegistrationForm(forms.ModelForm):
@@ -11,6 +12,10 @@ class UserRegistrationForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
 
     def save(self, commit=True):
-        if not self.instance.pk:
-            return super().save(commit)
-        return self.instance
+        user = super().save(commit=False)
+        user.password = make_password(self.cleaned_data['password'])
+        
+        if commit:
+            user.save()
+
+        return user
