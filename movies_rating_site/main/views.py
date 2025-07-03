@@ -6,7 +6,8 @@ from django.contrib import messages
 
 # Create your views here.
 def index(request):
-    return render(request, 'main/index.html')
+    movies = Movie.objects.order_by('-id')[:8]
+    return render(request, 'main/index.html', {'movies' : movies})
 
 def top_chart(request, slug=None):
     categories = Category.objects.all()
@@ -15,6 +16,15 @@ def top_chart(request, slug=None):
         movies = Movie.objects.filter(category=category).order_by("-imdb_rating")
     else:
         movies = Movie.objects.order_by('-imdb_rating')
+   
+    if request.user.is_authenticated:
+        user_ratings = UserRatings.objects.filter(user=request.user)
+        ratings_map = {rating.movie.id: rating.score for rating in user_ratings}
+        
+        for movie in movies:
+            rating = ratings_map.get(movie.id)
+            movie.user_rating = rating
+
     return render(request, 'main/chart.html', {'categories' : categories, 'movies' : movies})
 
 @login_required

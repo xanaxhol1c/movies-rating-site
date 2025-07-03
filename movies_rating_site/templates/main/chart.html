@@ -30,6 +30,9 @@
                         {% if movie.average_rating %}
                             <h6>Users Rating: {{movie.average_rating}}</h6>
                         {% endif %}
+                        {% if movie.user_rating %}
+                            <h6>Your rating: {{movie.user_rating}}<h6>
+                        {% endif %}
                         <h6>Released: {{movie.release_date}}</h6>
                     </div>
                 </div>

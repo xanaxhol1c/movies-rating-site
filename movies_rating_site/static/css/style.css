@@ -59,6 +59,48 @@ li {
     flex: 1;
 }
 
+/* index page styles */
+
+.search-form{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.search-input-field{
+    width: 85%;
+    height: 40px;
+    border-radius: 5px;
+    border: solid 1px;
+}
+
+.search-submit-btn{
+    width: 15%;
+    height: 40px;
+}
+
+.recently-added-container{
+    display: flex;
+    gap: 15px;
+}
+
+.recently-added-card{
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+    border: 1px solid;
+    width: 125px;
+    height: 225px;
+}
+
+.recently-added-movie-img{
+    height: 160px;
+    width: 110px;
+    border-radius: 5px;
+}
+
+/* chart page styles */
+
 .chart-categories{
     display: flex;
     gap: 15px;
@@ -71,7 +113,7 @@ li {
 }
 
 .movie-card-img{
-    height: 150px;
+    height: 175px;
     width: auto;
 }
 
