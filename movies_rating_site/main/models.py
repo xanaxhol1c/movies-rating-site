@@ -43,7 +43,10 @@ class Movie(models.Model):
     def average_rating(self):
         ratings = UserRatings.objects.filter(movie=self).aggregate(avg=Avg('score'))
 
-        return ratings['avg']
+        rating = ratings['avg']
+        if rating:
+            return round(float(rating), 1)
+        return None
 
 class UserRatings(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)

@@ -4,29 +4,37 @@
 {% block title%}Top Movies Chart{% endblock title%}
 
 {%block content%}
-    <div class="d-flex justify-content-center"><h1>Top Movies</h1></div>
-    <div class="chart-categories d-flex flex-row">
-        <a href="/chart/"><h4 style="color: black;">All</h4></a>
-        {% for category in categories %}
-            <a href="{{category.get_absolute_url}}"><h4 style="color: black;">{{category.name}}</h4></a>
+    {% if messages %}
+        {% for message in messages%}
+        <div class="d-flex align-items-center" style="display: flex; justify-content: center; flex: 1;">
+            <h1>{{message}}</h1>
+        </div>
         {% endfor%}
-    </div>
-    <div class="movies-cards d-flex flex-column">
-        {% for movie in movies %}
-        <a href={{movie.get_absolute_url}}>
-            <div class="movie-card d-flex flex-row mt-2">
-                <img class="movie-card-img m-2" src="{{movie.image.url}}"/>
-                <div class="movie-card-info m-2">                
-                    <h3>{{movie.name}}</h3>
-                    <h5>{{movie.category}}</h5>
-                    <h6>IMDb Rating: {{movie.imdb_rating}}</h6>
-                    {% if movie.average_rating %}
-                        <h6>Users Rating: {{movie.average_rating}}</h6>
-                    {% endif %}
-                    <h6>Released: {{movie.release_date}}</h6>
+    {% else %}
+    <div class="d-flex justify-content-center"><h1>Top Movies</h1></div>
+        <div class="chart-categories d-flex flex-row">
+            <a href="/chart/"><h4 style="color: black;">All</h4></a>
+            {% for category in categories %}
+                <a href="{{category.get_absolute_url}}"><h4 style="color: black;">{{category.name}}</h4></a>
+            {% endfor%}
+        </div>
+        <div class="movies-cards d-flex flex-column">
+            {% for movie in movies %}
+            <a href={{movie.get_absolute_url}}>
+                <div class="movie-card d-flex flex-row mt-2">
+                    <img class="movie-card-img m-2" src="{{movie.image.url}}"/>
+                    <div class="movie-card-info m-2">                
+                        <h3>{{movie.name}}</h3>
+                        <h5>{{movie.category}}</h5>
+                        <h6>IMDb Rating: {{movie.imdb_rating}}</h6>
+                        {% if movie.average_rating %}
+                            <h6>Users Rating: {{movie.average_rating}}</h6>
+                        {% endif %}
+                        <h6>Released: {{movie.release_date}}</h6>
+                    </div>
                 </div>
-            </div>
-        </a>
-        {% endfor %}
-    </div>
+            </a>
+            {% endfor %}
+        </div>
+    {% endif %}
 {% endblock content%}

@@ -4,7 +4,11 @@
 {% block title%}Movies Rating{% endblock title%}
 
 {%block content%}
-    <h1>Hello world!</h1>
+    <h1>Welcome to Movie Rating Site!</h1>
+    <form method="get" action="{% url 'main:search_movie' %}">
+        <input name='q' placeholder='Search movie...'/>
+        <button class="btn btn-primary submit-from-btn" type='submit'>Search</button>
+    </form>
 {% endblock content%}
 
 

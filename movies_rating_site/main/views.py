@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import Movie, Category, UserRatings
 from .forms import RateMovieForm
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 # Create your views here.
 def index(request):
@@ -40,7 +41,14 @@ def movie_details(request, slug):
 
     return render(request, 'main/moviedetails.html', {'form' : form, 'movie' : movie, 'rating' : rating})
 
-
+def search_movie(request):
+    q = request.GET.get('q') if request.GET.get('q') is not None else ''
+    movies = Movie.objects.filter(name__iregex=q)
+    categories = Category.objects.all()
+    if movies:
+        return render(request, 'main/chart.html', {'categories' : categories, 'movies' : movies})
+    messages.error(request, message=f'Sorry, but movie with name "{q}" is not found.')
+    return render(request, 'main/chart.html')
 
 # def rate_movie(request, slug):
 #     movie = get_object_or_404(Movie, slug=slug)
