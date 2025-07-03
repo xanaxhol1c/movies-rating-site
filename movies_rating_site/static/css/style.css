@@ -120,6 +120,16 @@ li {
 .movie-card-info{
     margin-left: 35px;
 }
+    
+.chart-paginator {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: auto;
+    padding: 15px 0;
+}
 
 /* Registration and login styles */
 

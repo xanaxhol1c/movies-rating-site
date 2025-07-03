@@ -3,13 +3,16 @@ from .models import Movie, Category, UserRatings
 from .forms import RateMovieForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.core.paginator import Paginator
 
 # Create your views here.
 def index(request):
-    movies = Movie.objects.order_by('-id')[:8]
+    movies = Movie.objects.order_by('-id')[:9]
     return render(request, 'main/index.html', {'movies' : movies})
 
 def top_chart(request, slug=None):
+    page = request.GET.get('page', 1)
+    movies = None
     categories = Category.objects.all()
     if slug:
         category = Category.objects.filter(slug=slug).first()
@@ -25,7 +28,10 @@ def top_chart(request, slug=None):
             rating = ratings_map.get(movie.id)
             movie.user_rating = rating
 
-    return render(request, 'main/chart.html', {'categories' : categories, 'movies' : movies})
+    paginator = Paginator(movies, 5)
+    current_page = paginator.page(int(page))
+
+    return render(request, 'main/chart.html', {'categories' : categories, 'current_page' : current_page})
 
 @login_required
 def movie_details(request, slug):
