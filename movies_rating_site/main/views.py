@@ -59,10 +59,15 @@ def movie_details(request, slug):
 
 def search_movie(request):
     q = request.GET.get('q') if request.GET.get('q') is not None else ''
+    page = request.GET.get('page', 1)
     movies = Movie.objects.filter(name__iregex=q)
     categories = Category.objects.all()
+
     if movies:
-        return render(request, 'main/chart.html', {'categories' : categories, 'movies' : movies})
+        paginator = Paginator(movies, 5)
+        current_page = paginator.page(int(page))
+        return render(request, 'main/chart.html', {'categories' : categories, 'current_page' : current_page})
+
     messages.error(request, message=f'Sorry, but movie with name "{q}" is not found.')
     return render(request, 'main/chart.html')
 

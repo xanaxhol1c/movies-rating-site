@@ -15,3 +15,4 @@ class RateMovieForm(forms.ModelForm):
         if score is None or (score < 1 or score > 10):
             raise forms.ValidationError('Rating has to be in range(1-10)')
         return score
+

@@ -42,13 +42,19 @@
             </div>
         </div>
         <div class="chart-paginator">
+            <li class="{% if not current_page.has_previous %}disabled{%else%}paginator-li{%endif%}">
+                <a href="{% if current_page.has_previous %}?page={{current_page.previous_page_number}}{%endif%}" class="{% if not current_page.has_previous %}disabled{%endif%}">Previous</a>
+            </li>
             {% for page in current_page.paginator.page_range %}
                 {% if page >= current_page.number|add:-2 and page <= current_page.number|add:2 %}
                     <li>
-                        <a href="?page={{page}}" class="{% if current_page.number == page %}disableb{%else%}paginator-li{%endif%}">{{page}}</a>
+                        <a href="?page={{page}}" class="{% if current_page.number == page %}disabled{%else%}paginator-li{%endif%}">{{page}}</a>
                     </li>
                 {% endif %}
             {% endfor %}
+            <li class="{% if not current_page.has_next %}disabled{%else%}paginator-li{%endif%}">
+                <a href="{% if current_page.has_next %}?page={{current_page.next_page_number}}{%endif%}" class="{% if not current_page.has_next %}disabled{%endif%}">Next</a>
+            </li>
         </div>
         {% endif %}
 

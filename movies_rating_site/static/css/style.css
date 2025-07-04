@@ -131,6 +131,10 @@ li {
     padding: 15px 0;
 }
 
+.disabled{
+    text-decoration: none;
+    color: grey;
+}
 /* Registration and login styles */
 
 .form-input-field{
