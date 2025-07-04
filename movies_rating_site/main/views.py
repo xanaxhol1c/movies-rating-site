@@ -36,7 +36,7 @@ def top_chart(request, slug=None):
 @login_required
 def movie_details(request, slug):
     movie = Movie.objects.filter(slug=slug).first()
-    comments = UserRatings.objects.filter(movie=movie, review__isnull=False)
+    comments = UserRatings.objects.filter(movie=movie, review__isnull=False).exclude(review__exact='')
 
     try:
         rating = UserRatings.objects.get(user=request.user, movie=movie)
