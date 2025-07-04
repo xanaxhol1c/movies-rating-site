@@ -139,13 +139,33 @@ li {
 /* Movie details page styles */
 
 .movie-details-img{
-    height: 500px;
-    width: 325px;
+    height: 425px;
+    width: 300px;
+}
+
+.movie-details-comment-card{
+    display: flex;
+    flex-direction: column;
+    border-radius: 5px;
+    border: solid 1px;
+    width: 500px;
+}
+
+.movie-details-comment-text{     
+    text-decoration: none;
+    border-style: none;
+    overflow-y: hidden;
+    font-size: 16px;
+    resize: none;        
+    overflow-wrap: break-word;    
+    word-wrap: break-word;
+    white-space: pre-wrap;     
+    color: black;
 }
 
 .rate-movie-form{
     display: flex;
-    align-items: center;
+    margin-top: 10px;
     gap: 5px;
 }
 
@@ -154,6 +174,28 @@ li {
     border: solid 1px;
     height: 35px;
 }
+
+.rate-movie-score-input{
+    border-radius: 5px;
+    border: solid rgb(177, 177, 177) 0.5px;
+    height: 35px;
+    width: 55px;
+}
+
+.rate-movie-review-input {
+    width: 100%;
+    height: 150px;                
+    padding: 10px 15px;          
+    font-size: 16px;
+    resize: vertical;           
+    line-height: 1.5;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    overflow-wrap: break-word;    
+    word-wrap: break-word;
+    white-space: pre-wrap;        
+}
+
 
 /* Registration and login styles */
 

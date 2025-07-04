@@ -52,6 +52,7 @@ class UserRatings(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
     score = models.PositiveSmallIntegerField()
+    review = models.TextField(max_length=250, blank=True, null=True)
 
     class Meta:
         unique_together = ('user', 'movie')

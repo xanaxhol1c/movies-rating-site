@@ -36,26 +36,26 @@ def top_chart(request, slug=None):
 @login_required
 def movie_details(request, slug):
     movie = Movie.objects.filter(slug=slug).first()
+    comments = UserRatings.objects.filter(movie=movie, review__isnull=False)
 
-    rating = UserRatings.objects.filter(user=request.user, movie=movie).first()
+    try:
+        rating = UserRatings.objects.get(user=request.user, movie=movie)
+    except UserRatings.DoesNotExist:
+        rating = None
 
     if request.method == 'POST':
-        if rating:
-            form = RateMovieForm(request.POST, instance=rating)
-        else:
-            form = RateMovieForm(request.POST)
+        form = RateMovieForm(request.POST, instance=rating)
 
         if form.is_valid():
-            rating = form.save(commit=False)
-            rating.user = request.user
-            rating.movie = movie
-            rating.save()
-
+            new_rating = form.save(commit=False)
+            new_rating.user = request.user
+            new_rating.movie = movie
+            new_rating.save()
             return redirect('main:movie_details', slug = movie.slug)
     else:
         form = RateMovieForm(instance=rating)
 
-    return render(request, 'main/moviedetails.html', {'form' : form, 'movie' : movie, 'rating' : rating})
+    return render(request, 'main/moviedetails.html', {'form' : form, 'movie' : movie, 'rating' : rating, 'comments' : comments})
 
 def search_movie(request):
     q = request.GET.get('q') if request.GET.get('q') is not None else ''

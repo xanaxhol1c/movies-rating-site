@@ -23,19 +23,51 @@
             {% if rating %}
                 <p>Your rating: {{rating.score}}</p>
             {% endif %}
-            <div>
-                <form class="rate-movie-form" method="post" action = "">
-                    {% csrf_token %}
-                    {% if form.score.errors %}
-                        <div>
-                            <p class="alert alert-danger">{{form.score.errors.0}}</p>
-                        </div>
-                    {% endif %}
-                    <input class="rate-movie-input" id="score" name="score" placeholder="score" min="1" max="10"/>
-                    <button id="formSubmitBtn"class="btn btn-primary" style="height: 35px;" type="submit">Rate</button>
-                </form>
-            </div>
+            {% if rating.review %}
+                <p>{{rating.review}}</p>
+            {% endif %}
+            {% if form.score.errors %}
+                <div>
+                    <p class="alert alert-danger">{{form.score.errors.0}}</p>
+                </div>
+            {% endif %}
+            {% if form.review.errors %}
+                <div>
+                    <p class="alert alert-danger">{{form.review.errors.0}}</p>
+                </div>
+            {% endif %}
+            <button id="rateMovieBtn" class="btn btn-primary">Rate movie</button>
+            <form class="rate-movie-form flex-column" id="rateMovieForm" method="post" style="display: none;">
+                {% csrf_token %}
+                <input class="rate-movie-score-input" id="score" name="score" placeholder="score" value="{{rating.score|default_if_none:''}}"/>
+                <textarea class="rate-movie-review-input" id="review" name="review" placeholder="Your review...">{{ rating.review|default_if_none:'' }}</textarea>
+                <button class="btn btn-primary" style="height: 35px;" type="submit">Rate</button>
+            </form>
+            <script>
+                const rateMovieBtn = document.getElementById("rateMovieBtn")
+                const rateMovieForm = document.getElementById("rateMovieForm")
+
+                rateMovieBtn.addEventListener('click', () => {
+                    if (rateMovieForm.style.display == 'none')
+                        rateMovieForm.style.display = 'flex';
+                    else
+                        rateMovieForm.style.display = 'none';
+                });
+            </script>
         </div>
     </div>
+    {% if comments %}
+        <div class="movie-details-comment-container mt-3" style="margin-bottom: 15px;">
+            <h2>Comments</h2>
+            {% for comment in comments %}
+                    <div class="movie-details-comment-card mt-2">
+                        <span style="border-bottom: solid 1px;">
+                            <h5 class="m-1" style="margin-left: 5px;">{{comment.user.username}} - {{comment.score}}</h5>
+                        </span>
+                        <textarea class="movie-details-comment-text" style="margin-left: 2px;" disabled>{{comment.review}}</textarea>
+                    </div>
+            {% endfor %}
+        </div>
+    {% endif %}
     
 {% endblock content %}
