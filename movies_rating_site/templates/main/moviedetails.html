@@ -5,27 +5,37 @@
 {% block title %}{{movie.name}}{% endblock title %}
 
 {% block content %}
-    <div>
-        <p>{{movie.category}}</p>
-        <p>{{movie.name}}</p>
-        <p>{{movie.description}}</p>
-        <p>{{movie.release_date}}</p>
-        <p>{{movie.imdb_rating}}</p>
-        {% if rating %}
-            <p>Your rating: {{rating.score}}</p>
-        {% endif %}
-        <img src="{{movie.image.url}}">
-    </div>
-    <div>
-        <form method="post" action = "">
-            {% csrf_token %}
-            {% if form.score.errors %}
-                <div>
-                    <p class="alert alert-danger">{{form.score.errors.0}}</p>
-                </div>
+    <div class="d-flex flex-row" style="gap: 35px;">
+        <div>
+            <img src="{{movie.image.url}}" class="movie-details-img"/>
+        </div>
+        <div>
+            <h1>{{movie.name}}</h1>
+            <div class="mt-2">
+                <h3>{{movie.category}}</h3>
+            </div>
+            <p>{{movie.description}}</p>
+            <p>{{movie.release_date}}</p>
+            <p>IMDb rating: {{movie.imdb_rating}}</p>
+            {% if movie.average_rating %}
+                <p>Users rating: {{movie.average_rating}}</p>
             {% endif %}
-            <input id="score" name="score" placeholder="score" min="1" max="10"/>
-            <button id="formSubmitBtn"class="btn btn-primary" type="submit">Rate</button>
-        </form>
+            {% if rating %}
+                <p>Your rating: {{rating.score}}</p>
+            {% endif %}
+            <div>
+                <form class="rate-movie-form" method="post" action = "">
+                    {% csrf_token %}
+                    {% if form.score.errors %}
+                        <div>
+                            <p class="alert alert-danger">{{form.score.errors.0}}</p>
+                        </div>
+                    {% endif %}
+                    <input class="rate-movie-input" id="score" name="score" placeholder="score" min="1" max="10"/>
+                    <button id="formSubmitBtn"class="btn btn-primary" style="height: 35px;" type="submit">Rate</button>
+                </form>
+            </div>
+        </div>
     </div>
+    
 {% endblock content %}

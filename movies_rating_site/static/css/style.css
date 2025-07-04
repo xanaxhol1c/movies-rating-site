@@ -94,7 +94,7 @@ li {
 }
 
 .recently-added-movie-img{
-    height: 160px;
+    height: 175px;
     width: 110px;
     border-radius: 5px;
 }
@@ -135,6 +135,26 @@ li {
     text-decoration: none;
     color: grey;
 }
+
+/* Movie details page styles */
+
+.movie-details-img{
+    height: 500px;
+    width: 325px;
+}
+
+.rate-movie-form{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.rate-movie-input{
+    border-radius: 5px;
+    border: solid 1px;
+    height: 35px;
+}
+
 /* Registration and login styles */
 
 .form-input-field{
