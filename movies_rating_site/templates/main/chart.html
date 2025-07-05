@@ -1,0 +1,75 @@
+{% extends 'layout.html'%}
+{% load static %}
+
+{% block title%}Top Movies Chart{% endblock title%}
+
+{%block content%}
+    {% if messages %}
+        {% for message in messages%}
+        <div class="d-flex align-items-center" style="display: flex; justify-content: center; flex: 1;">
+            <h1>{{message}}</h1>
+        </div>
+        {% endfor%}
+    {% else %}
+    <div style="min-height: 90vh;">
+        <div class="d-flex justify-content-center"><h1>Top Movies</h1></div>
+            <div class="chart-categories d-flex flex-row">
+                <a href="/chart/"
+                   hx-get="/chart/"
+                   hx-target="#movies-list"
+                   hx-swap="innerHTML">
+                   <h4 style="color: black;">All</h4>
+                </a>
+                {% for category in categories %}
+                    <a href="{{category.get_absolute_url}}"
+                       hx-get="{{category.get_absolute_url}}"
+                       hx-target="#movies-list"
+                       hx-swap="innerHTML"
+                       ><h4 style="color: black;">{{category.name}}</h4>
+                    </a>
+                {% endfor%}
+            </div>
+            <div id="movies-list"> 
+                {% include 'partials/main/chart_movies_list.html'%}
+            </div>
+
+            {% comment %} <div class="movies-cards d-flex flex-column">
+                {% for movie in current_page %}
+                <a href={{movie.get_absolute_url}}>
+                    <div class="movie-card d-flex flex-row mt-2">
+                        <img class="movie-card-img m-2" src="{{movie.image.url}}"/>
+                        <div class="movie-card-info m-2">                
+                            <h3>{{movie.name}}</h3>
+                            <h5>{{movie.category}}</h5>
+                            <h6>IMDb Rating: {{movie.imdb_rating}}</h6>
+                            {% if movie.average_rating %}
+                                <h6>Users Rating: {{movie.average_rating}}</h6>
+                            {% endif %}
+                            {% if movie.user_rating %}
+                                <h6>Your rating: {{movie.user_rating}}<h6>
+                            {% endif %}
+                            <h6>Released: {{movie.release_date}}</h6>
+                        </div>
+                    </div>
+                </a>
+                {% endfor %}
+            </div> {% endcomment %}
+        </div>
+        <div class="chart-paginator">
+            <li class="{% if not current_page.has_previous %}disabled{%else%}paginator-li{%endif%}">
+                <a href="{% if current_page.has_previous %}?page={{current_page.previous_page_number}}{%endif%}" class="{% if not current_page.has_previous %}disabled{%endif%}">Previous</a>
+            </li>
+            {% for page in current_page.paginator.page_range %}
+                {% if page >= current_page.number|add:-2 and page <= current_page.number|add:2 %}
+                    <li>
+                        <a href="?page={{page}}" class="{% if current_page.number == page %}disabled{%else%}paginator-li{%endif%}">{{page}}</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+            <li class="{% if not current_page.has_next %}disabled{%else%}paginator-li{%endif%}">
+                <a href="{% if current_page.has_next %}?page={{current_page.next_page_number}}{%endif%}" class="{% if not current_page.has_next %}disabled{%endif%}">Next</a>
+            </li>
+        </div>
+        {% endif %}
+
+{% endblock content%}

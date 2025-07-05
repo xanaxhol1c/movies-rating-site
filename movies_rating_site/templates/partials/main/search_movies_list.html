@@ -1,0 +1,5 @@
+{% if suggestions %}
+    {% for movie in suggestions %}
+        <li><a href="{{movie.get_absolute_url}}">{{movie.name}}</a></li>
+    {% endfor %}
+{% endif %}

@@ -1,0 +1,6 @@
+__pycache__/
+venv/
+media/
+.env
+moviesdb_backup.sql
+staticfiles
