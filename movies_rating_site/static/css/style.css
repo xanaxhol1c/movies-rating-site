@@ -95,6 +95,7 @@ li {
     text-decoration: none;
     color: #333;
     font-size: 16px;
+    width: 100%;
     border-bottom: 1px solid #eee;
     transition: background-color 0.2s ease;
 }
@@ -158,23 +159,31 @@ li {
 
 /* Movie details page styles */
 
-.movie-details-img{
+.movie-details-img {
     height: 425px;
     width: 300px;
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
 }
 
-.movie-details-comment-card{
-    display: flex;
-    flex-direction: column;
-    border-radius: 5px;
-    border: solid 1px;
-    width: 500px;
+
+.movie-details-comment-card {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+    width: 600px;
+    max-width: 600px;
+    box-shadow: 1px 1px 6px rgba(0,0,0,0.05);
 }
 
 .movie-details-comment-text{     
     text-decoration: none;
     border-style: none;
     overflow-y: hidden;
+    background-color: #f9f9f9;
     font-size: 16px;
     resize: none;        
     overflow-wrap: break-word;    
@@ -183,10 +192,12 @@ li {
     color: black;
 }
 
-.rate-movie-form{
+.rate-movie-form {
     display: flex;
-    margin-top: 10px;
-    gap: 5px;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 15px;
+    max-width: 600px;
 }
 
 .rate-movie-input{
@@ -195,11 +206,12 @@ li {
     height: 35px;
 }
 
-.rate-movie-score-input{
+.rate-movie-score-input {
+    width: 80px;
+    padding: 8px;
+    font-size: 16px;
     border-radius: 5px;
-    border: solid rgb(177, 177, 177) 0.5px;
-    height: 35px;
-    width: 55px;
+    border: 1px solid #ccc;
 }
 
 .rate-movie-review-input {
@@ -207,7 +219,7 @@ li {
     height: 150px;                
     padding: 10px 15px;          
     font-size: 16px;
-    resize: vertical;           
+    resize: none;           
     line-height: 1.5;
     border: 1px solid #ccc;
     border-radius: 8px;

@@ -6,43 +6,45 @@
 
 {% block content %}
     <div class="d-flex flex-row" style="gap: 35px;">
-        <div>
-            <img src="{{movie.image.url}}" class="movie-details-img"/>
-        </div>
-        <div>
-            <h1>{{movie.name}}</h1>
-            <div class="mt-2">
-                <h3>{{movie.category}}</h3>
-            </div>
-            <p>{{movie.description}}</p>
-            <p>{{movie.release_date}}</p>
-            <p>IMDb rating: {{movie.imdb_rating}}</p>
+            <div>
+        <img src="{{movie.image.url}}" class="movie-details-img"/>
+    </div>
+    <div>
+        <h1>{{movie.name}}</h1>
+        <h4 class="text-muted">{{movie.category}}</h4>
+        <p class="mt-3">{{movie.description}}</p>
+        <p><strong>Release:</strong> {{movie.release_date}}</p>
+        <div class="d-flex flex-row gap-3">
+            <h5>IMDb: {{movie.imdb_rating}}</h5>
             {% if movie.average_rating %}
-                <p>Users rating: {{movie.average_rating}}</p>
+                <h5>Users: {{movie.average_rating|floatformat:1}}</h5>
             {% endif %}
-            {% if rating %}
-                <p>Your rating: {{rating.score}}</p>
-            {% endif %}
+        </div>
+        {% if rating %}
+            <hr>
+            <h5>Your review:</h5>
+            <h5>Score: {{rating.score}}</h5>
             {% if rating.review %}
-                <p>{{rating.review}}</p>
-            {% endif %}
-            {% if form.score.errors %}
-                <div>
-                    <p class="alert alert-danger">{{form.score.errors.0}}</p>
+                <div class="movie-details-comment-card mt-1">
+                    <textarea class="movie-details-comment-text" disabled>{{rating.review}}</textarea>
                 </div>
             {% endif %}
-            {% if form.review.errors %}
-                <div>
-                    <p class="alert alert-danger">{{form.review.errors.0}}</p>
-                </div>
-            {% endif %}
-            <button id="rateMovieBtn" class="btn btn-primary">Rate movie</button>
-            <form class="rate-movie-form flex-column" id="rateMovieForm" method="post" style="display: none;">
-                {% csrf_token %}
-                <input class="rate-movie-score-input" id="score" name="score" placeholder="score" value="{{rating.score|default_if_none:''}}"/>
-                <textarea class="rate-movie-review-input" id="review" name="review" placeholder="Your review...">{{ rating.review|default_if_none:'' }}</textarea>
-                <button class="btn btn-primary" style="height: 35px;" type="submit">Rate</button>
-            </form>
+        {% endif %}
+
+        {% if form.score.errors %}
+            <p class="alert alert-danger">{{form.score.errors.0}}</p>
+        {% endif %}
+        {% if form.review.errors %}
+            <p class="alert alert-danger">{{form.review.errors.0}}</p>
+        {% endif %}
+
+        <button id="rateMovieBtn" class="btn btn-secondary">Rate movie</button>
+        <form class="rate-movie-form" id="rateMovieForm" method="post" style="display: none;">
+            {% csrf_token %}
+            <input class="rate-movie-score-input" id="score" name="score" placeholder="Score" value="{{rating.score|default_if_none:''}}"/>
+            <textarea class="rate-movie-review-input" id="review" name="review" placeholder="Your review...">{{ rating.review|default_if_none:'' }}</textarea>
+            <button class="btn btn-secondary" type="submit">Submit Review</button>
+        </form>
             <script>
                 const rateMovieBtn = document.getElementById("rateMovieBtn")
                 const rateMovieForm = document.getElementById("rateMovieForm")
