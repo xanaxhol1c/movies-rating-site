@@ -5,6 +5,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.paginator import Paginator
 
+from django.template.loader import render_to_string
+from django.http import HttpResponse
 # Create your views here.
 def index(request):
     movies = Movie.objects.order_by('-id')[:9]
@@ -31,6 +33,10 @@ def top_chart(request, slug=None):
     paginator = Paginator(movies, 5)
     current_page = paginator.page(int(page))
 
+    if request.htmx:
+        html = render_to_string('partials/main/chart_movies_list.html', {'current_page' : current_page}, request=request)
+        return HttpResponse(html)
+
     return render(request, 'main/chart.html', {'categories' : categories, 'current_page' : current_page})
 
 @login_required
@@ -55,7 +61,7 @@ def movie_details(request, slug):
     else:
         form = RateMovieForm(instance=rating)
 
-    return render(request, 'main/moviedetails.html', {'form' : form, 'movie' : movie, 'rating' : rating, 'comments' : comments})
+    return render(request, 'main/movie_details.html', {'form' : form, 'movie' : movie, 'rating' : rating, 'comments' : comments})
 
 def search_movie(request):
     q = request.GET.get('q') if request.GET.get('q') is not None else ''
@@ -70,6 +76,20 @@ def search_movie(request):
 
     messages.error(request, message=f'Sorry, but movie with name "{q}" is not found.')
     return render(request, 'main/chart.html')
+
+def search_movies_suggestions(request):
+    q = request.GET.get('q') if request.GET.get('q') is not None else ''
+
+    suggestions = []
+
+    if q:
+        suggestions = Movie.objects.filter(name__iregex=q).order_by('name')[:5]
+    
+    html = render_to_string("partials/main/search_movies_list.html", {'suggestions' : suggestions}, request=request)
+
+    return HttpResponse(html)
+
+    
 
 # def rate_movie(request, slug):
 #     movie = get_object_or_404(Movie, slug=slug)
